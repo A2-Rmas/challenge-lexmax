@@ -7,6 +7,8 @@ authors = ["Andres Armas <andresarmas97@hotmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 Django = "^4.0.4"
+djangorestframework = "^3.13.1"
+drf-spectacular = "^0.22.1"
 
 [tool.poetry.dev-dependencies]
 
