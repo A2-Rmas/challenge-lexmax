@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  db:
+    image: library/postgres:12.8-alpine
+    restart: unless-stopped
+    env_file:
+      - .env.db
+    volumes:
+      - db:/var/lib/postgresql
+    networks:
+      - backend-network
+
+  redis:
+    image: library/redis:6.2-alpine
+    restart: unless-stopped
+    networks:
+      - backend-network
+    volumes:
+      - redis:/data
+
+  web:
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - media:/app/public/media
+      - static:/app/public/static
+    networks:
+      - backend-network
+    depends_on:
+      - db
+    links:
+      - db:db
+
+volumes:
+  db:
+    driver: local
+
+  redis:
+    driver: local
+
+  media:
+    driver: local
+
+  static:
+    driver: local
+
+networks:
+  backend-network:
+    driver: bridge
